@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 1000001
+#define swap(x,y){int t=x;x=y;y=t;}
+
+int N, Arr[MAX];
+
+/*void q_sort(int *A, int start, int end) {
+
+	int L = start+1;
+	int R = end;
+	int tmp;
+	
+	while ((L <= R)) { // 엇갈리지 않았을때
+
+		while ((A[R] >= A[start]) && R > start) //R이 key보다 작은거 찾을때까지
+			R--;
+
+		while ((A[L] <= A[start]) && L <= end)
+			L++;
+
+		if ((L > R)) { // 엇갈리면
+			//tmp = A[R]; //key 배열 값과 R배열 값 교체
+			//A[R] = A[start]; //현재 R값은 정렬 확정 값
+			//A[start] = tmp;
+			break;
+		}
+		else if(L <= R){ //엇갈리지 않으면
+			tmp = A[R]; //L 배열 값과 R배열 값 교체
+			A[R] = A[L];
+			A[L] = tmp;
+		}
+	}
+
+	if (!(start >= R-1))
+		q_sort(A, start, R - 1);
+	if(!(R+1 >= end))
+		q_sort(A, R+1, end);
+}*/
+
+void q_sort(int* A, int start, int end) {
+
+
+	if (start >= end)
+		return;
+
+	int L = start;
+	int R = end;
+	int tmp;
+	int key = (start + end) / 2;
+
+	while ((L < R)) { // 엇갈리지 않았을때
+
+		while ((A[R] > A[key])) //R이 key보다 작은거 찾을때까지
+			R--;
+
+		while ((A[L] < A[key]))
+			L++;
+
+		if ((L >= R)) { // 엇갈리면
+			//tmp = A[R]; //key 배열 값과 R배열 값 교체
+			//A[R] = A[key]; //현재 R값은 정렬 확정 값
+			//A[key] = tmp;
+            swap(A[R],A[key]);
+			break;
+		}
+		else if (L <= R) { //엇갈리지 않으면
+			//tmp = A[R]; //L 배열 값과 R배열 값 교체
+			//A[R] = A[L];
+			//A[L] = tmp;
+            swap(A[R],A[L]);
+
+			R = start;
+			L = end;
+		}
+	}
+	if (start < R - 1)
+		q_sort(Arr, start, R - 1);
+	if (R + 1 < end)
+		q_sort(Arr, R + 1, end);
+}
+
+
+int main() {
+
+	//int N;
+	scanf("%d", &N);
+	//int* A = (int*)malloc(sizeof(int) * N);
+
+	for (int i = 0; i < N; i++)
+		scanf("%d", &Arr[i]);
+
+	q_sort(Arr, 0, N - 1);
+	for (int i = 0; i < N; i++)
+		printf("%d\n", Arr[i]);
+
+	//free(A);
+
+	return 0;
+}
